@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoxClip — Micrófono inalámbrico que suena a estudio</title>
+<meta name="description" content="Micrófono lavalier inalámbrico para TikTok, Reels, YouTube, entrevistas y clases virtuales. Envío a toda Colombia.">
+
+<!--
+  ============================================================
+  CONFIGURA AQUÍ — 3 cosas para editar antes de publicar:
+  1) WHATSAPP_NUMBER  -> tu número con indicativo, sin + ni espacios (ej: 573001234567)
+  2) PAYMENT_LINK      -> tu link de pago de Wompi o ePayco
+  3) PRICE             -> si cambias el precio, cámbialo en las 2 líneas marcadas [PRECIO]
+  ============================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #17181A;
+    --bg-alt: #1F201D;
+    --paper: #F4EFE4;
+    --paper-dim: #B9B4A8;
+    --rec: #FF4438;
+    --brass: #C9A15A;
+    --line: rgba(244,239,228,0.14);
+    --line-strong: rgba(244,239,228,0.28);
+    --display: 'Bebas Neue', sans-serif;
+    --body: 'Work Sans', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--paper);
+    font-family: var(--body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img,svg{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+
+  .wrap{ max-width: 1120px; margin:0 auto; padding: 0 24px; }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass);
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:6px; height:6px; border-radius:50%;
+    background: var(--rec);
+    box-shadow: 0 0 0 3px rgba(255,68,56,0.18);
+  }
+
+  h1,h2,h3{ font-family: var(--display); font-weight:400; letter-spacing: 0.01em; text-transform: uppercase; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(23,24,26,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 16px 24px;
+  }
+  .logo{
+    font-family: var(--display);
+    font-size: 24px;
+    letter-spacing: 0.03em;
+  }
+  .logo span{ color: var(--rec); }
+  .onair{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    border: 1px solid var(--line-strong);
+    padding: 6px 12px;
+    border-radius: 999px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .onair .dot{
+    width:7px; height:7px; border-radius:50%;
+    background: var(--rec);
+    animation: pulse 1.6s infinite ease-in-out;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; box-shadow: 0 0 0 0 rgba(255,68,56,0.5); }
+    50%{ opacity:0.55; box-shadow: 0 0 0 6px rgba(255,68,56,0); }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 0.98;
+    margin: 14px 0 20px;
+  }
+  .hero h1 .accent{ color: var(--rec); }
+  .hero p.lede{
+    font-size: 18px;
+    color: var(--paper-dim);
+    max-width: 46ch;
+    margin-bottom: 30px;
+  }
+  .cta-row{ display:flex; flex-wrap:wrap; gap: 14px; margin-bottom: 22px; }
+  .btn{
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 16px 26px;
+    border-radius: 4px;
+    display:inline-flex; align-items:center; gap:10px;
+    transition: transform .15s ease, filter .15s ease;
+    border: 1px solid transparent;
+    cursor:pointer;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn-primary{ background: var(--rec); color: var(--paper); }
+  .btn-primary:hover{ filter: brightness(1.08); }
+  .btn-secondary{ background: transparent; border-color: var(--line-strong); color: var(--paper); }
+  .btn-secondary:hover{ border-color: var(--paper); }
+  .trust-note{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--paper-dim);
+    display:flex; gap: 18px; flex-wrap:wrap;
+  }
+  .trust-note b{ color: var(--brass); font-weight:600; }
+
+  /* product visual */
+  .hero-visual{
+    position: relative;
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 36px;
+    aspect-ratio: 1 / 1;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .vu-meter{
+    position:absolute; bottom: 20px; left: 20px; right: 20px;
+    display:flex; gap:4px; align-items:flex-end; height: 46px;
+  }
+  .vu-meter .bar{
+    flex:1; background: var(--brass); opacity:0.35; border-radius: 1px;
+    animation: vu 1.1s infinite ease-in-out;
+  }
+  .vu-meter .bar:nth-child(3n){ background: var(--rec); }
+  .vu-meter .bar:nth-child(1){ animation-delay: -1.1s; }
+  .vu-meter .bar:nth-child(2){ animation-delay: -0.9s; }
+  .vu-meter .bar:nth-child(3){ animation-delay: -0.7s; }
+  .vu-meter .bar:nth-child(4){ animation-delay: -1.3s; }
+  .vu-meter .bar:nth-child(5){ animation-delay: -0.5s; }
+  .vu-meter .bar:nth-child(6){ animation-delay: -0.8s; }
+  .vu-meter .bar:nth-child(7){ animation-delay: -1.0s; }
+  .vu-meter .bar:nth-child(8){ animation-delay: -0.6s; }
+  .vu-meter .bar:nth-child(9){ animation-delay: -1.2s; }
+  .vu-meter .bar:nth-child(10){ animation-delay: -0.4s; }
+  .vu-meter .bar:nth-child(11){ animation-delay: -0.9s; }
+  .vu-meter .bar:nth-child(12){ animation-delay: -0.7s; }
+  @keyframes vu{
+    0%,100%{ height: 12%; opacity:0.35; }
+    50%{ height: 92%; opacity:0.9; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .vu-meter .bar, .onair .dot{ animation: none !important; }
+  }
+  .price-tag{
+    position:absolute; top: 20px; right: 20px;
+    font-family: var(--mono);
+    background: var(--paper); color: var(--bg);
+    padding: 8px 12px; border-radius: 4px;
+    font-size: 12px; letter-spacing: 0.04em;
+  }
+
+  /* ---------- AGITATE ---------- */
+  .agitate{ padding: 56px 0; border-bottom: 1px solid var(--line); }
+  .agitate .wrap{ display:grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items:start; }
+  .agitate h2{ font-size: clamp(28px,3.4vw,38px); line-height:1.05; }
+  .agitate p{ color: var(--paper-dim); font-size: 16px; max-width: 52ch; }
+
+  /* ---------- SPECS ---------- */
+  .specs{ padding: 64px 0; border-bottom: 1px solid var(--line); }
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 36px; flex-wrap:wrap; gap:12px; }
+  .section-head h2{ font-size: clamp(30px,4vw,44px); }
+  .specs-grid{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow:hidden;
+  }
+  .spec-card{ background: var(--bg-alt); padding: 26px 22px; }
+  .spec-card .val{ font-family: var(--display); font-size: 34px; color: var(--brass); }
+  .spec-card .lbl{ font-family: var(--mono); font-size: 11px; letter-spacing:0.1em; text-transform:uppercase; color: var(--paper-dim); margin-top:6px; }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how{ padding: 64px 0; border-bottom: 1px solid var(--line); }
+  .how-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 36px; }
+  .step{ border-top: 2px solid var(--brass); padding-top: 18px; }
+  .step .num{ font-family: var(--mono); color: var(--rec); font-size: 13px; }
+  .step h3{ font-size: 24px; margin: 8px 0 10px; }
+  .step p{ color: var(--paper-dim); font-size: 15px; }
+
+  /* ---------- USE CASES ---------- */
+  .uses{ padding: 56px 0; border-bottom: 1px solid var(--line); }
+  .uses-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap:14px; margin-top: 28px; }
+  .use-chip{
+    border: 1px solid var(--line); border-radius: 6px; padding: 20px 16px;
+    font-family: var(--mono); font-size: 13px; color: var(--paper-dim);
+  }
+  .use-chip b{ display:block; color: var(--paper); font-family: var(--body); font-size: 16px; font-weight:600; margin-bottom:6px; }
+
+  /* ---------- PRICING ---------- */
+  .pricing{ padding: 72px 0; border-bottom: 1px solid var(--line); }
+  .price-card{
+    background: var(--bg-alt); border: 1px solid var(--line-strong); border-radius: 10px;
+    padding: 44px; display:grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items:center;
+  }
+  .price-old{ font-family: var(--mono); color: var(--paper-dim); text-decoration: line-through; font-size: 16px; }
+  .price-new{ font-family: var(--display); font-size: 56px; color: var(--paper); margin: 4px 0 6px; }
+  .price-new sup{ font-size: 22px; color: var(--brass); }
+  .price-note{ font-family: var(--mono); font-size: 12px; color: var(--brass); margin-bottom: 22px; }
+  .includes{ display:flex; flex-direction:column; gap: 10px; margin-bottom: 26px; }
+  .includes li{ font-size: 14px; color: var(--paper-dim); display:flex; gap:10px; }
+  .includes li::before{ content:"—"; color: var(--rec); }
+
+  /* ---------- FAQ ---------- */
+  .faq{ padding: 64px 0; border-bottom: 1px solid var(--line); }
+  .faq-item{ border-bottom: 1px solid var(--line); padding: 20px 0; }
+  .faq-item summary{
+    cursor:pointer; font-family: var(--body); font-weight:600; font-size: 17px;
+    display:flex; justify-content:space-between; align-items:center; list-style:none;
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-item summary::after{ content:"+"; font-family: var(--mono); color: var(--brass); font-size: 20px; }
+  .faq-item[open] summary::after{ content:"–"; }
+  .faq-item p{ color: var(--paper-dim); margin-top: 12px; font-size: 15px; max-width: 60ch; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding: 40px 0 120px; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  footer p{ font-family: var(--mono); font-size: 12px; color: var(--paper-dim); }
+
+  /* ---------- STICKY MOBILE CTA ---------- */
+  .sticky-cta{
+    position: fixed; bottom:0; left:0; right:0; z-index: 60;
+    background: var(--bg-alt); border-top: 1px solid var(--line-strong);
+    padding: 12px 16px; display:none;
+    align-items:center; justify-content:space-between; gap: 12px;
+  }
+  .sticky-cta .price{ font-family: var(--mono); font-size: 14px; }
+  .sticky-cta .price b{ font-family: var(--display); font-size: 20px; color: var(--brass); display:block; }
+  .sticky-cta .btn{ padding: 12px 18px; font-size: 12px; }
+
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .hero-visual{ order:-1; aspect-ratio: 4/3; }
+    .agitate .wrap{ grid-template-columns: 1fr; }
+    .specs-grid{ grid-template-columns: repeat(2,1fr); }
+    .how-grid{ grid-template-columns: 1fr; gap: 20px; }
+    .uses-grid{ grid-template-columns: repeat(2,1fr); }
+    .price-card{ grid-template-columns: 1fr; padding: 28px; }
+    .sticky-cta{ display:flex; }
+    footer{ padding-bottom: 96px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav wrap">
+    <div class="logo">VOX<span>CLIP</span></div>
+    <div class="onair"><span class="dot"></span> EN VIVO · ENVÍOS A TODA COLOMBIA</div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Micrófono lavalier inalámbrico</div>
+      <h1>Tu audio deja de<br>sonar a <span class="accent">celular</span></h1>
+      <p class="lede">Micrófono inalámbrico de clip con cancelación de ruido. Se conecta en 5 segundos y tu voz suena limpia, cercana y profesional — sin cables, sin editar audio después.</p>
+      <div class="cta-row">
+        <a href="#pricing" class="btn btn-primary">Comprar ahora — $99.900</a>
+        <a href="#" id="wa-btn-hero" target="_blank" rel="noopener" class="btn btn-secondary">Pedir por WhatsApp</a>
+      </div>
+      <div class="trust-note">
+        <span><b>2–5 días</b> hábiles a todo el país</span>
+        <span><b>Pago</b> contraentrega o en línea</span>
+        <span><b>Garantía</b> 30 días</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="price-tag">$99.900 COP</div>
+      <svg viewBox="0 0 260 260" width="72%">
+        <!-- estilización simple de micrófono clip + receptor inalámbrico -->
+        <circle cx="130" cy="130" r="118" fill="none" stroke="#2A2B27" stroke-width="1"/>
+        <rect x="96" y="40" width="68" height="68" rx="14" fill="none" stroke="#C9A15A" stroke-width="3"/>
+        <circle cx="130" cy="74" r="20" fill="none" stroke="#F4EFE4" stroke-width="2.5"/>
+        <circle cx="130" cy="74" r="4" fill="#FF4438"/>
+        <path d="M96 108 Q70 150 96 190 Q130 220 164 190 Q190 150 164 108" fill="none" stroke="#F4EFE4" stroke-width="2" opacity="0.5"/>
+        <rect x="60" y="196" width="140" height="34" rx="6" fill="none" stroke="#F4EFE4" stroke-width="2.5"/>
+        <circle cx="80" cy="213" r="4" fill="#4B4D46"/>
+        <circle cx="100" cy="213" r="4" fill="#4B4D46"/>
+        <circle cx="120" cy="213" r="4" fill="#C9A15A"/>
+      </svg>
+      <div class="vu-meter">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="agitate">
+  <div class="wrap">
+    <h2>El micrófono del celular<br>no fue hecho para esto</h2>
+    <p>Grabas un video, una entrevista o una clase virtual y el audio sale con eco, con ruido de fondo, o se escucha lejano apenas te alejas de la cámara. La gente deja de ver el video en los primeros segundos si el audio se escucha mal — así de simple. VoxClip resuelve eso conectándose directo a tu ropa, cerca de tu voz.</p>
+  </div>
+</section>
+
+<section class="specs">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Ficha técnica</h2>
+      <div class="eyebrow">Especificaciones</div>
+    </div>
+    <div class="specs-grid">
+      <div class="spec-card"><div class="val">50M</div><div class="lbl">Alcance sin interferencia</div></div>
+      <div class="spec-card"><div class="val">8H</div><div class="lbl">Batería por carga</div></div>
+      <div class="spec-card"><div class="val">USB-C</div><div class="lbl">Carga rápida</div></div>
+      <div class="spec-card"><div class="val">2 EN 1</div><div class="lbl">iPhone y Android</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Cómo funciona</h2>
+      <div class="eyebrow">3 pasos</div>
+    </div>
+    <div class="how-grid">
+      <div class="step">
+        <div class="num">01 / CONECTA</div>
+        <h3>Clip + plug and play</h3>
+        <p>Enganchas el clip a tu ropa y conectas el receptor a tu celular. Sin apps, sin configuración.</p>
+      </div>
+      <div class="step">
+        <div class="num">02 / GRABA</div>
+        <h3>Audio limpio al instante</h3>
+        <p>La cancelación de ruido filtra el sonido ambiente y deja tu voz al frente, como en estudio.</p>
+      </div>
+      <div class="step">
+        <div class="num">03 / COMPARTE</div>
+        <h3>Directo a tus redes</h3>
+        <p>Publica sin pasar tu audio por ningún editor. Lo que grabas ya está listo para subir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="uses">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Para quién es</h2>
+    </div>
+    <div class="uses-grid">
+      <div class="use-chip"><b>Creadores de contenido</b>TikTok, Reels, YouTube</div>
+      <div class="use-chip"><b>Profesores</b>Clases virtuales sin eco</div>
+      <div class="use-chip"><b>Emprendedores</b>Entrevistas y podcasts</div>
+      <div class="use-chip"><b>Vendedores</b>Videos de producto en vivo</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="price-card">
+      <div>
+        <div class="eyebrow">Oferta de lanzamiento</div>
+        <div class="price-old">$129.900</div>
+        <div class="price-new">$99.900 <sup>COP</sup></div>
+        <div class="price-note">Envío 2–5 días hábiles · Stock limitado</div>
+        <ul class="includes">
+          <li>1x Micrófono lavalier inalámbrico</li>
+          <li>1x Receptor con clip + entrada Lightning/USB-C</li>
+          <li>1x Cable de carga</li>
+          <li>Garantía de 30 días por defectos de fábrica</li>
+        </ul>
+        <div class="cta-row">
+          <a href="#" id="pay-btn" target="_blank" rel="noopener" class="btn btn-primary">Pagar en línea ahora</a>
+          <a href="#" id="wa-btn-price" target="_blank" rel="noopener" class="btn btn-secondary">Prefiero WhatsApp</a>
+        </div>
+      </div>
+      <div class="vu-meter" style="position:static; height:120px;">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <div class="section-head"><h2>Preguntas frecuentes</h2></div>
+
+    <details class="faq-item" open>
+      <summary>¿Cuánto tarda el envío?</summary>
+      <p>Entre 2 y 5 días hábiles a la mayoría de ciudades de Colombia, dependiendo de tu ubicación.</p>
+    </details>
+    <details class="faq-item">
+      <summary>¿Puedo pagar contraentrega?</summary>
+      <p>Sí, escríbenos por WhatsApp para coordinar pago contraentrega en las ciudades disponibles. También puedes pagar en línea con tarjeta o PSE.</p>
+    </details>
+    <details class="faq-item">
+      <summary>¿Es compatible con mi celular?</summary>
+      <p>Sí. El receptor funciona con entrada Lightning (iPhone) y USB-C (la mayoría de Android). Escríbenos tu modelo si tienes dudas antes de comprar.</p>
+    </details>
+    <details class="faq-item">
+      <summary>¿Qué garantía tiene?</summary>
+      <p>30 días de garantía por defectos de fábrica desde la fecha de entrega.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>VOXCLIP © 2026 — Bogotá, Colombia</p>
+    <p id="wa-footer-wrap">Pedidos y soporte: <a href="#" id="wa-footer">WhatsApp</a></p>
+  </div>
+</footer>
+
+<div class="sticky-cta">
+  <div class="price">Envío a toda Colombia<b>$99.900 COP</b></div>
+  <a href="#" id="wa-btn-sticky" target="_blank" rel="noopener" class="btn btn-primary">Comprar</a>
+</div>
+
+<script>
+  // ======= CONFIG: edita estas 2 líneas =======
+  const WHATSAPP_NUMBER = "573000000000"; // <-- tu número con indicativo, sin +
+  const PAYMENT_LINK = "https://checkout.wompi.co/l/TU_LINK_AQUI"; // <-- tu link de Wompi/ePayco
+  // =============================================
+
+  const waMessage = encodeURIComponent("Hola, quiero pedir el micrófono VoxClip 🎙️");
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
+
+  ["wa-btn-hero","wa-btn-price","wa-btn-sticky","wa-footer"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.href = waUrl;
+  });
+  const payBtn = document.getElementById("pay-btn");
+  if(payBtn) payBtn.href = PAYMENT_LINK;
+</script>
+
+</body>
+</html>
